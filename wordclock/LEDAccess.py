@@ -9,7 +9,9 @@ from rpi_ws281x import PixelStrip, Color
 class LEDAccess:
     
     def __init__(self):
-        self.LED_COUNT = 114        # Number of LED pixels.
+        self.ROWS = 10
+        self.COLUMNS = 11
+        self.POINTS = 4
         self.LED_PIN = 18          # GPIO pin connected to the pixels (18 uses PWM!).
         self.LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
         self.LED_DMA = 10          # DMA channel to use for generating signal (try 10)
@@ -17,7 +19,7 @@ class LEDAccess:
         self.LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
         self.LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
         
-        self.strip = PixelStrip(self.LED_COUNT, self.LED_PIN, self.LED_FREQ_HZ, self.LED_DMA, self.LED_INVERT, self.LED_BRIGHTNESS, self.LED_CHANNEL)
+        self.strip = PixelStrip(self.ROWS * self.COLUMNS + self.POINTS, self.LED_PIN, self.LED_FREQ_HZ, self.LED_DMA, self.LED_INVERT, self.LED_BRIGHTNESS, self.LED_CHANNEL)
         self.strip.begin()
         
         self.points = [(2 + 11 * 9), (3 + 11 * 10), 0, (1 + 11 * 1)]
@@ -56,6 +58,16 @@ class LEDAccess:
     def turn_all_off(self):
         for led in range(self.strip.numPixels()):
             self.strip.setPixelColor(led, Color(0, 0, 0))   
+            
+    def turn_rows_on(self, rows, color = Color(255, 255, 255)):
+        for row in rows:
+            for column in range(self.COLUMNS):
+                self.strip.setPixelColor(self.coordinates_to_strip_pos(row, column), color)
+                
+    def turn_columns_on(self, columns, color = Color(255, 255, 255)):
+        for column in columns:
+            for row in range(self.ROWS):
+                self.strip.setPixelColor(self.coordinates_to_strip_pos(row, column), color)  
         
     def refresh(self):
         self.strip.show()
