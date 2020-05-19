@@ -54,6 +54,8 @@ class LEDAccess:
     def turn_on_positions(self, positions, color = Color(255, 255, 255)):
         for position in positions:
             self.strip.setPixelColor(position, color)
+
+    #TODO: define function that can turn row + range of column and otherwise
             
     def turn_all_off(self):
         for led in range(self.strip.numPixels()):
