@@ -39,46 +39,31 @@ def set_paraguay_flag(led_access):
     led_access.refresh()
     
 def set_heart_big(led_access):
-    #color = Color(199,21,133) # mediumvioletred     #C71585
-    color = Color(255, 0, 0) # mediumvioletred     #C71585
-    #divider = 6
-    #color = Color(199/divider, 21/6, 133/6)
+    color = Color(255, 0, 0)
     
-   # led_access.turn_rows_on(range(10), color)
-    #led_access.turn_rows_on([8,9], color)
-    #led_access.turn_columns_on([0,1], color)
-    #$led_access.turn_columns_on([9,10], color)
-    
-    
-    #led_access.turn_rows_on([7], color)
-    led_access.turn_on_matrix_position([(0, 2), (0, 3), (0, 7), (0, 8)], color)
-    led_access.turn_on_matrix_position([(1, 1), (1, 2), (1, 3), (1, 4), (1,6),(1, 7), (1, 8), (1, 9)], color)
-    #led_access.turn_on_matrix_position([(2, 2), (2, 3), (2, 4), (2,6),(2, 7), (2, 8)], color)
-    led_access.turn_on_matrix_position([(2,0), (2, 1), (2, 2), (2, 3), (2, 4), (2,5),(2, 6), (2, 7), (2, 8), (2, 9), (2,10)], color)
-    led_access.turn_on_matrix_position([(3, 0), (3, 1), (3, 2), (3, 3), (3, 4), (3,5),(3, 6), (3, 7), (3, 8), (3, 9), (3, 10)], color)
-    led_access.turn_on_matrix_position([(4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8), (4, 9), (4, 10)], color)
-    led_access.turn_on_matrix_position([(5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6), (5, 7), (5, 8), (5, 9)], color)
-    led_access.turn_on_matrix_position([(6, 2), (6, 3), (6, 4), (6, 5), (6, 6), (6, 7), (6, 8)], color)
-    led_access.turn_on_matrix_position([(7, 3), (7, 4), (7, 5), (7, 6), (7, 7)], color)
-    led_access.turn_on_matrix_position([(8, 4), (8, 5), (8, 6)], color)
-    led_access.turn_on_matrix_position([(9, 5)], color)
+    led_access.turn_on_row_ranged(0, [2, 3, 7 ,8], color)
+    led_access.turn_on_row_ranged(1, [1, 2, 3, 4, 6, 7 , 8, 9], color)
+    led_access.turn_on_row_ranged(2, range(11), color)
+    led_access.turn_on_row_ranged(3, range(11), color)
+    led_access.turn_on_row_ranged(4, range(11), color)
+    led_access.turn_on_row_ranged(5, range(1,10), color)
+    led_access.turn_on_row_ranged(6, range(2,9), color)
+    led_access.turn_on_row_ranged(7, range(3,8), color)
+    led_access.turn_on_row_ranged(8, range(4,7), color)
+    led_access.turn_on_row_ranged(9, range(5,6), color)
     led_access.refresh()
-    
-
-    
     
 def set_heart_small(led_access):
     color = Color(255, 0, 0) # mediumvioletred     #C71585
   
-    led_access.turn_on_matrix_position([(2, 2), (2, 3), (2, 4), (2,6),(2, 7), (2, 8)], color)
-    led_access.turn_on_matrix_position([(3, 1), (3, 2), (3, 3), (3, 4), (3,5),(3, 6), (3, 7), (3, 8), (3, 9)], color)
-    led_access.turn_on_matrix_position([(4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8), (4, 9)], color)
-    led_access.turn_on_matrix_position([(5, 2), (5, 3), (5, 4), (5, 5), (5, 6), (5, 7), (5, 8)], color)
-    led_access.turn_on_matrix_position([(6, 3), (6, 4), (6, 5), (6, 6), (6, 7)], color)
-    led_access.turn_on_matrix_position([(7, 4), (7, 5), (7, 6)], color)
-    led_access.turn_on_matrix_position([(8, 5)], color)
+    led_access.turn_on_row_ranged(2, [2, 3, 4, 6, 7 ,8], color)
+    led_access.turn_on_row_ranged(3, range(1, 10), color)
+    led_access.turn_on_row_ranged(4, range(1, 10), color)
+    led_access.turn_on_row_ranged(5, range(2,9), color)
+    led_access.turn_on_row_ranged(6, range(3,8), color)
+    led_access.turn_on_row_ranged(7, range(4,7), color)
+    led_access.turn_on_row_ranged(8, range(5,6), color)
     led_access.refresh()
-
 
 if __name__ == '__main__':
     board = SpanishBoard()
@@ -89,6 +74,7 @@ if __name__ == '__main__':
         
         while(True):
 
+            #Heart animation
             for i in range(2):
                 ledAccess.turn_all_off()    
                 ledAccess.refresh()
