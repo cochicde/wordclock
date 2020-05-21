@@ -53,6 +53,9 @@ class MatrixOperations:
                 sys.exit("[turn_columns_on] Column: " + str(column) + CONST_OUT_OF_SCOPE + str(self.columns))
             for row in range(self.rows):
                 self.led_strip.set_pixel_color(self.led_strip.coordinates_to_strip_pos(row, column), color)
+    
+    def turn_all_off(self):
+        self.led_strip.turn_all_off()  
                 
     def refresh(self):
         self.led_strip.refresh()
