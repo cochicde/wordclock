@@ -44,6 +44,9 @@ class LedStripHorizontal1:
     def set_pixel_color(self, pos, color):
         self.strip.setPixelColor(pos, color)
         
+    def get_pixel_color(self, pos):
+        return self.strip.getPixelColor(pos)
+        
     def turn_all_off(self):
         for led in range(self.led_count):
             self.strip.setPixelColor(led, 0)   

@@ -53,6 +53,38 @@ class MatrixOperations:
                 sys.exit("[turn_columns_on] Column: " + str(column) + CONST_OUT_OF_SCOPE + str(self.columns))
             for row in range(self.rows):
                 self.led_strip.set_pixel_color(self.led_strip.coordinates_to_strip_pos(row, column), color)
+                
+    def move_down(self, count):
+        for row in range(self.rows - 1 - count, -1, -1):
+            colors = [self.led_strip.get_pixel_color(self.led_strip.coordinates_to_strip_pos(row, column)) for column in range(self.columns)]
+            for column in range(self.columns):
+                self.led_strip.set_pixel_color(self.led_strip.coordinates_to_strip_pos(row + count, column), colors[column])
+        
+        self.turn_rows_on(range(count), 0)
+        
+    def move_up(self, count):
+        for row in range(count, self.rows):
+            colors = [self.led_strip.get_pixel_color(self.led_strip.coordinates_to_strip_pos(row, column)) for column in range(self.columns)]
+            for column in range(self.columns):
+                self.led_strip.set_pixel_color(self.led_strip.coordinates_to_strip_pos(row - count, column), colors[column])
+        
+        self.turn_rows_on(range(self.rows - count, self.rows), 0)
+        
+    def move_right(self, count):
+        for column in range(self.columns - 1 - count, -1, -1):
+            colors = [self.led_strip.get_pixel_color(self.led_strip.coordinates_to_strip_pos(row, column)) for row in range(self.rows)]
+            for row in range(self.rows):
+                self.led_strip.set_pixel_color(self.led_strip.coordinates_to_strip_pos(row, column  + count), colors[row])
+        
+        self.turn_columns_on(range(count), 0)
+        
+    def move_left(self, count):
+        for column in range(count, self.columns):
+            colors = [self.led_strip.get_pixel_color(self.led_strip.coordinates_to_strip_pos(row, column)) for row in range(self.rows)]
+            for row in range(self.rows):
+                self.led_strip.set_pixel_color(self.led_strip.coordinates_to_strip_pos(row, column - count), colors[row])
+        
+        self.turn_columns_on(range(self.columns - count, self.columns), 0)
     
     def turn_all_off(self):
         self.led_strip.turn_all_off()  

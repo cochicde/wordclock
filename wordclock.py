@@ -69,6 +69,8 @@ if __name__ == '__main__':
                
         matrix.refresh()
         
+
+        
         if TEST:
             if(STEP_TEST):
                 input("Press enter to add a minute")
