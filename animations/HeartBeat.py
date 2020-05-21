@@ -1,8 +1,9 @@
 import time
+from animations.AnimationBase import AnimationBase
 from animations import HeartBig
 from animations import HeartSmall
 
-class HeartBeat:
+class HeartBeat(AnimationBase):
     
     def __init__(self, led_access, parameters):
         

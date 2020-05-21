@@ -1,6 +1,7 @@
+from animations.AnimationBase import AnimationBase
 from rpi_ws281x import Color
 
-class HeartBig:
+class HeartBig(AnimationBase):
     
     def __init__(self, led_access, parameters):
         numbers = parameters.get("color", "255 0 0")

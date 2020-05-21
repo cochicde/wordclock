@@ -1,6 +1,7 @@
 from rpi_ws281x import Color
+from animations.AnimationBase import AnimationBase
 
-class ParaguayFlag:
+class ParaguayFlag(AnimationBase):
     
     def __init__(self, led_access, parameters):
         self.led_access = led_access
