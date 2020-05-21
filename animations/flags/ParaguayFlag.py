@@ -1,5 +1,6 @@
-from rpi_ws281x import Color
 from animations.AnimationBase import AnimationBase
+from rpi_ws281x import Color
+
 
 class ParaguayFlag(AnimationBase):
     

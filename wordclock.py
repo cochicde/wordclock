@@ -6,17 +6,13 @@ Created on Apr 24, 2020
 
 import atexit
 import time
-import os
-
 
 from wordclock import SpanishBoard
 from wordclock.LedStripHorizontal1 import LedStripHorizontal1
-from wordclock.BoardWord import BoardWord
 from wordclock.MatrixOperations import MatrixOperations
 from config.ConfigParser import ConfigParser
-import ModuleLoader
+from animations.AnimationsLoader import load_modules
 
-#For flag
 import datetime
 
 TEST = False
@@ -32,7 +28,7 @@ if __name__ == '__main__':
     #Look for key called wordclock which should have an array of tupples whose first parameter
     #would be the name of the variable and the other value would be the parameter
     
-    parser = ConfigParser(os.path.abspath("config/default.conf"))
+    parser = ConfigParser("config/default.conf")
     
     parameters_global = parser.parse()
     
@@ -42,7 +38,7 @@ if __name__ == '__main__':
     matrix = MatrixOperations(led_strip, {})
     
     #Load modules
-    name_and_executables = ModuleLoader.load_modules("./animations/", "animations", matrix, parameters_global)
+    name_and_executables = load_modules("./animations/", "animations", matrix, parameters_global)
  
     atexit.register(clean_all, led_strip)
     debug_time = datetime.datetime.now()

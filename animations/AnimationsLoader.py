@@ -1,8 +1,7 @@
-import importlib
 import os
+import importlib
 from animations.AnimationBase import AnimationBase 
 
-#TODO: Change the module to AnimationLoader and move it to the animation folder
 def load_modules(path, module, matrix, parameters_global):
     load_modules_recursiv(path, module)
     

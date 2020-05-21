@@ -1,17 +1,17 @@
 import time
 from animations.AnimationBase import AnimationBase
-from animations import HeartBig
-from animations import HeartSmall
+from animations.HeartBig import HeartBig
+from animations.HeartSmall import HeartSmall
 
 class HeartBeat(AnimationBase):
     
     def __init__(self, led_access, parameters):
         
         parameters["color"] = parameters.get("color_small", "255 0 0")
-        self.heart_small = HeartSmall.HeartSmall(led_access, parameters)
+        self.heart_small = HeartSmall(led_access, parameters)
         
         parameters["color"] = parameters.get("color_big", "255 0 0")
-        self.heart_big = HeartBig.HeartBig(led_access, parameters)
+        self.heart_big = HeartBig(led_access, parameters)
         
         self.times = int(parameters.get("times", "2"))
         self.small_ms = int(parameters.get("small_ms", "300"))
