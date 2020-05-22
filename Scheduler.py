@@ -7,7 +7,6 @@ class OwnDatetime:
     
     def __init__(self, year, month, day, hour, minute, second):
         self.values = [year, month, day, hour, minute, second]
-        self.needs_check = [year != None, month != None, day != None, hour != None, minute != None, second != None]
         
         # The following code  is used to test if the provided values are in their valid range
         # Default valid values are given if None were provided
@@ -32,16 +31,16 @@ class OwnDatetime:
     # This is needed because if starting and finishing dates of a period are not similar, 
     # a time slot cannot be calculated
     def check_similar(self, second):
-        for i in range(len(self.needs_check)):
-            if (self.needs_check[i]) != (second.needs_check[i]):
+        for i in range(len(self.values)):
+            if (self.values[i] == None) != (second.values[i] == None):
                 return False
         
         return True
     
     def substract_time_s(self, second):
         
-        year = self.values[0] if self.needs_check[0] else 2020
-        month = self.values[1] if self.needs_check[1] else 12
+        year = self.values[0] if self.values[0] != None else 2020
+        month = self.values[1] if self.values[1] != None else 12
         max_days_of_month = calendar.monthrange(year, month)[1]
         
         
@@ -65,8 +64,8 @@ class OwnDatetime:
         
         own_datetime = datetime.datetime()
         
-        year = self.values[0] if self.needs_check[0] != None else 2020
-        month = self.values[1] if self.needs_check[1] != None else 12
+        year = self.values[0] if self.values[0] != None else 2020
+        month = self.values[1] if self.values[1] != None else 12
     
     # Just for testing    
     def __str__(self):
