@@ -16,9 +16,6 @@ from Scheduler import Scheduler
 
 import datetime
 
-TEST = False
-STEP_TEST = True
-
 def clean_all(led_strip):
     led_strip.turn_all_off()
     led_strip.refresh()
@@ -42,27 +39,14 @@ if __name__ == '__main__':
     name_and_executables = load_modules("./animations/", "animations", matrix, parameters_global)
  
     atexit.register(clean_all, led_strip)
-    debug_time = datetime.datetime.now()
     scheduler = Scheduler(name_and_executables, parameters_global["scheduler"])
         
     while(True):
         
-       
-        
-        #to_execute = "ParaguayFlag"
-        
-        #led_strip.turn_all_off()
-        #name_and_executables[to_execute].execute()
-        #if to_execute != "HeartBeat":
-        #    time.sleep(2)
-        
         led_strip.turn_all_off()
         freq = scheduler.execute()
 
-        if TEST:
-            wordsAndPoints = board.get_words_and_points_from_time(debug_time)
-        else:
-            wordsAndPoints = board.get_words_and_points_from_time(datetime.datetime.now().time())
+        wordsAndPoints = board.get_words_and_points_from_time(datetime.datetime.now().time())
       
         led_strip.turn_all_off()
         for word in wordsAndPoints[0]:
@@ -75,18 +59,7 @@ if __name__ == '__main__':
                
         matrix.refresh()
         
-
-        
-        if TEST:
-            if(STEP_TEST):
-                input("Press enter to add a minute")
-            else:
-                time.sleep(200 / 1000.0)
-            
-            debug_time = debug_time + datetime.timedelta(minutes=1)
-            print_clock(wordsAndPoints)
-        else:    
-            #sleeptime = 60 - datetime.datetime.utcnow().second
-            sleeptime = freq
-            time.sleep(sleeptime)
+        #sleeptime = 60 - datetime.datetime.utcnow().second
+        sleeptime = freq
+        time.sleep(sleeptime)
         
