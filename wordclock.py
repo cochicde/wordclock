@@ -56,6 +56,7 @@ if __name__ == '__main__':
         if to_execute != "HeartBeat":
             time.sleep(2)
         
+        #scheduler.execute()
 
         if TEST:
             wordsAndPoints = board.get_words_and_points_from_time(debug_time)

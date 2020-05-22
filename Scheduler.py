@@ -39,6 +39,7 @@ class OwnDatetime:
     
     def substract_time_s(self, second):
         
+        #instead of 2020 it must be the current year
         year = self.values[0] if self.values[0] != None else 2020
         month = self.values[1] if self.values[1] != None else 12
         max_days_of_month = calendar.monthrange(year, month)[1]
@@ -62,10 +63,23 @@ class OwnDatetime:
     
     def compare(self, datetime_to_check):
         
-        own_datetime = datetime.datetime()
+        year = self.values[0] if self.values[0] != None else datetime_to_check.year
+        month = self.values[1] if self.values[1] != None else datetime_to_check.month
+        day = self.values[2] if self.values[2] != None else datetime_to_check.day
+        hour = self.values[3] if self.values[3] != None else datetime_to_check.hour
+        minute = self.values[4] if self.values[4] != None else datetime_to_check.minute
+        second = self.values[5] if self.values[5] != None else datetime_to_check.second
         
-        year = self.values[0] if self.values[0] != None else 2020
-        month = self.values[1] if self.values[1] != None else 12
+        #we add the microseconds to avoid wrong results in the comparisons
+        own_datetime = datetime.datetime(year, month, day, hour, minute, second, datetime_to_check.microsecond)
+        print("ownTime " + str(own_datetime) + " vs " + " currentTime " + str(datetime_to_check))
+        if own_datetime == datetime_to_check :
+            return 0
+        elif own_datetime > datetime_to_check:
+            return 1
+        else:
+            return -1
+        
     
     # Just for testing    
     def __str__(self):
@@ -201,11 +215,18 @@ class Scheduler:
         # and execute it in a new thread and wait (semaphore) for the time that should run.
         # The scheduler should be able to stop the animation, because the time is up, or
         # an external event happened that force to stop it (from the web page for example)
-        # If the stop wasn't because of external, it should show the clock. 
-        pass
+        # If the stop wasn't because of external, it should show the clock.
+        current_datetime = datetime.datetime.now()
+        print("================")
+        print("Current datetime: " + str(current_datetime)) 
+        for app in self.registered_apps:
+            for period in app.periods:
+                if period[0].compare(current_datetime) <= 0 and period[1].compare(current_datetime) >= 0:
+                    print("It is between the periods " + str(period[0]) + " and " + str(period[1]))
+                else:
+                    print("It is NOT between the periods " + str(period[0]) + " and " + str(period[1]))
         
-        
-        
+        print("================")
         
         
         
