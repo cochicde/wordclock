@@ -49,14 +49,15 @@ if __name__ == '__main__':
         
        
         
-        to_execute = "ParaguayFlag"
+        #to_execute = "ParaguayFlag"
+        
+        #led_strip.turn_all_off()
+        #name_and_executables[to_execute].execute()
+        #if to_execute != "HeartBeat":
+        #    time.sleep(2)
         
         led_strip.turn_all_off()
-        name_and_executables[to_execute].execute()
-        if to_execute != "HeartBeat":
-            time.sleep(2)
-        
-        #scheduler.execute()
+        freq = scheduler.execute()
 
         if TEST:
             wordsAndPoints = board.get_words_and_points_from_time(debug_time)
@@ -86,6 +87,6 @@ if __name__ == '__main__':
             print_clock(wordsAndPoints)
         else:    
             #sleeptime = 60 - datetime.datetime.utcnow().second
-            sleeptime = 10
+            sleeptime = freq
             time.sleep(sleeptime)
         

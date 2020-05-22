@@ -1,6 +1,7 @@
 
 import datetime 
 import calendar
+import time
 
 #we don't use the official datetime because we need to be able to set fields to None
 class OwnDatetime:
@@ -72,7 +73,6 @@ class OwnDatetime:
         
         #we add the microseconds to avoid wrong results in the comparisons
         own_datetime = datetime.datetime(year, month, day, hour, minute, second, datetime_to_check.microsecond)
-        print("ownTime " + str(own_datetime) + " vs " + " currentTime " + str(datetime_to_check))
         if own_datetime == datetime_to_check :
             return 0
         elif own_datetime > datetime_to_check:
@@ -97,6 +97,7 @@ class SubscribedApp:
         self.application = app_name
         self.executable = executable
         self.periods = []
+        self.periods_in_seconds = []
         
         periods = periods.split(",")
         for period in periods:
@@ -112,8 +113,11 @@ class SubscribedApp:
                 return
             
             self.periods.append((start_of_period, end_of_period))
-            print("Time difference between " + str(start_of_period) + " and " 
-                  + str(end_of_period) + " is === " + str(end_of_period.substract_time_s(start_of_period)) )
+            # we store the period in seconds in order not to calculate them all the time
+            # This is almost constant, except if the month is not selected (which defaults to January)
+            # and also if February is selected, and so the period is bigger on leap years. But the differences
+            # are small enough not to take in account, for now
+            self.periods_in_seconds.append(end_of_period.substract_time_s(start_of_period))
             
         
         self.period_frequency = int(period_freq) 
@@ -143,19 +147,6 @@ class SubscribedApp:
                 
         return OwnDatetime(date_list[0], date_list[1], date_list[2], time_list[0], time_list[1], time_list[2])
     
-    # return two values. The first one is True or False to indicate if the datetime to_check is in any of 
-    # the periods the app has. 
-    # The second returned value is the amount of seconds period lasta. If the app has more than one period that matches
-    # the period to_check, the smaller period time is returned
-    def is_datetime_in_period(self, to_check):
-        found = False
-        minimum_period = None
-       # for perido in self.periods:
-            
-        
-    
-    
-        
     # Just for testing
     def __str__(self):
         periods = "["
@@ -170,7 +161,6 @@ class SubscribedApp:
                 ", period_frequency = " + str(self.period_frequency) +
                 ", time = " + str(self.time) +
                 ", group = " + str(self.group)                )    
-    
     
     
 class Scheduler:
@@ -198,10 +188,6 @@ class Scheduler:
                 self.registered_apps.append(new_subscribed_app)
             
         
-        for app in self.registered_apps:
-            print(str(app))    
-            print("")
-    
     def execute(self):
         #This shoudl be called from wordclock wich will take care of everythin
         #Here, the lowest time should be checked, and sleep untill next trigger.
@@ -217,16 +203,26 @@ class Scheduler:
         # an external event happened that force to stop it (from the web page for example)
         # If the stop wasn't because of external, it should show the clock.
         current_datetime = datetime.datetime.now()
-        print("================")
-        print("Current datetime: " + str(current_datetime)) 
+        valid_apps = []
+        apps_periods = []
         for app in self.registered_apps:
-            for period in app.periods:
-                if period[0].compare(current_datetime) <= 0 and period[1].compare(current_datetime) >= 0:
-                    print("It is between the periods " + str(period[0]) + " and " + str(period[1]))
-                else:
-                    print("It is NOT between the periods " + str(period[0]) + " and " + str(period[1]))
+            minimum_period = -1
+            for i in range(len(app.periods)):
+                if (app.periods[i][0].compare(current_datetime) <= 0 and app.periods[i][1].compare(current_datetime) >= 0) and (minimum_period == -1 or minimum_period > app.periods_in_seconds[i]):
+                    minimum_period = app.periods_in_seconds[i]
+                    
+            
+            if minimum_period != -1:
+                valid_apps.append(app)
+                apps_periods.append(minimum_period)
         
-        print("================")
+        app_to_execute = valid_apps[apps_periods.index(min(apps_periods))] 
+        app_to_execute.executable.execute()
+        time.sleep(app_to_execute.time)
+        return app.period_frequency
+        
+        
+  
         
         
         
