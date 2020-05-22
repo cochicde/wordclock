@@ -12,6 +12,7 @@ from wordclock.LedStripHorizontal1 import LedStripHorizontal1
 from wordclock.MatrixOperations import MatrixOperations
 from config.ConfigParser import ConfigParser
 from animations.AnimationsLoader import load_modules
+from Scheduler import Scheduler
 
 import datetime
 
@@ -42,8 +43,11 @@ if __name__ == '__main__':
  
     atexit.register(clean_all, led_strip)
     debug_time = datetime.datetime.now()
+    scheduler = Scheduler(name_and_executables, parameters_global["scheduler"])
         
     while(True):
+        
+       
         
         to_execute = "ParaguayFlag"
         
