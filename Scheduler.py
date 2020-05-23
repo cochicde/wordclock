@@ -119,7 +119,6 @@ class SubscribedApp:
             # are small enough not to take in account, for now
             self.periods_in_seconds.append(end_of_period.substract_time_s(start_of_period))
             
-        
         self.period_frequency = int(period_freq) 
         self.time = int(time)
         self.group = group
@@ -186,7 +185,8 @@ class Scheduler:
             # The application name is empty if the parameters have something wrong
             if new_subscribed_app.application != "":
                 self.registered_apps.append(new_subscribed_app)
-            
+        
+        self.group_index = 0    
         
     def execute(self):
         #This shoudl be called from wordclock wich will take care of everythin
@@ -216,7 +216,18 @@ class Scheduler:
                 valid_apps.append(app)
                 apps_periods.append(minimum_period)
         
-        app_to_execute = valid_apps[apps_periods.index(min(apps_periods))] 
+        app_to_execute = valid_apps[apps_periods.index(min(apps_periods))]
+        
+        # If the app to execute has a group, iterate over all apps of the same group sequencially
+        current_group = app_to_execute.group
+        if current_group != None:
+            apps_in_group = [app for app in valid_apps if app.group == current_group]
+            if self.group_index >= len(apps_in_group):
+                self.group_index = 0
+            
+            app_to_execute = apps_in_group[self.group_index]
+            self.group_index += 1
+         
         app_to_execute.executable.execute()
         time.sleep(app_to_execute.time)
         return app.period_frequency
