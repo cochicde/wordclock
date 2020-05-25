@@ -8,7 +8,7 @@ class ParaguayFlag(AnimationBase):
         self.led_access = led_access
             
     def execute(self):
-        max_value = 64
+        max_value = 127
         #TODO: make the flag dependant of the rows/columns. Achtung the yellow in the middle
         self.led_access.turn_rows_on(range(3), Color(max_value, 0, 0))
         self.led_access.turn_rows_on(range(3, 7), Color(max_value, max_value, max_value))

@@ -229,7 +229,8 @@ class Scheduler:
             self.group_index += 1
          
         app_to_execute.executable.execute()
-        time.sleep(app_to_execute.time)
+        if app_to_execute.time > 0:
+            time.sleep(app_to_execute.time)
         return app.period_frequency
         
         
