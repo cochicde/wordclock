@@ -32,11 +32,23 @@ class LedStripHorizontal1:
         self.led_freq_hz = int(parameters.get("led_freq_hz", 800000))            # LED signal frequency in hertz (usually 800khz)
         self.led_dma = int(parameters.get("led_dma", 10))                        # DMA channel to use for generating signal (try 10)
         self.led_brightness = int(parameters.get("led_brightness", 255))         # Set to 0 for darkest and 255 for brightest
-        self.led_invert = parameters.get("led_brightness", "False") == "True"   # True to invert the signal (when using NPN transistor level shift) 
+        self.led_invert = parameters.get("led_brightness", "False") == "True"    # True to invert the signal (when using NPN transistor level shift) 
         self.led_channel = int(parameters.get("led_channel", 0))                 # set to '1' for GPIOs 13, 19, 41, 45 or 53
+        gamma_factor = float(parameters.get("gamma_factor", 2.8))                    
+        gamma_table = None
+        if gamma_factor != 1:
+            gamma_table = self.get_gamma_table(gamma_factor) 
         
-        self.strip = PixelStrip(self.led_count, self.led_pin, self.led_freq_hz, self.led_dma, self.led_invert, self.led_brightness, self.led_channel, gamma=gamma8)
+        self.strip = PixelStrip(self.led_count, self.led_pin, self.led_freq_hz, self.led_dma, self.led_invert, self.led_brightness, self.led_channel, gamma=gamma_table)
         self.strip.begin()
+     
+    def get_gamma_table(self, factor):
+        gamma_table = []
+        for i in range(256):
+            gamma_table.append(int(((i/255) ** factor) * 255 + 0.5))
+        
+        return gamma_table
+        
         
     #0,0 is the top left LED, and rows increase downwards, and columns to the right    
     def coordinates_to_strip_pos(self, row, column):
