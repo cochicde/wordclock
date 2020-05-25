@@ -166,27 +166,28 @@ class Scheduler:
     
     def __init__(self, executables, parameters):
         self.registered_apps = []
-        apps_params_list = {}
-        for param in parameters:
-            app_name_and_param = param[0].split(".")
+        apps_params_dict = {}
+        
+        for param in parameters.keys():
+            app_name_and_param = param.split(".")
             
-            if apps_params_list.get(app_name_and_param[0]) == None:
-                 apps_params_list[app_name_and_param[0]] = {}
+            if apps_params_dict.get(app_name_and_param[0]) == None:
+                 apps_params_dict[app_name_and_param[0]] = {}
             
-            apps_params_list[app_name_and_param[0]][app_name_and_param[1]] = param[1]
+            apps_params_dict[app_name_and_param[0]][app_name_and_param[1]] = parameters[param]
             
-        for app_name in apps_params_list:
+        for app_name in apps_params_dict:
             new_subscribed_app = SubscribedApp(app_name, executables[app_name], 
-                                                            apps_params_list[app_name]["period"],
-                                                            apps_params_list[app_name].get("period_frequency", "10"),
-                                                            apps_params_list[app_name].get("time", "2"),
-                                                            apps_params_list[app_name].get("group", None))
+                                                            apps_params_dict[app_name]["period"],
+                                                            apps_params_dict[app_name].get("period_frequency", "10"),
+                                                            apps_params_dict[app_name].get("time", "2"),
+                                                            apps_params_dict[app_name].get("group", None))
             
             # The application name is empty if the parameters have something wrong
             if new_subscribed_app.application != "":
                 self.registered_apps.append(new_subscribed_app)
         
-        self.group_index = 0    
+        self.group_index = 0
         
     def execute(self):
         #This shoudl be called from wordclock wich will take care of everythin

@@ -1,10 +1,11 @@
 import os
 import importlib
 from animations.AnimationBase import AnimationBase 
+import utils.ModuleLoader as ModuleLoader 
 
 #TODO: Since only scheduled apps will run, the loading of executables should be done by the schedule somehow
-def load_modules(path, module, matrix, parameters_global):
-    load_modules_recursiv(path, module)
+def load_animations(path, module, matrix, parameters_global):
+    ModuleLoader.load_modules_recursiv(path, module)
     
     name_and_classes = {cls.__name__ : cls for cls in AnimationBase.__subclasses__()}
     name_and_executables = {}
@@ -34,17 +35,6 @@ def load_modules(path, module, matrix, parameters_global):
      
     return name_and_executables
 
-def load_modules_recursiv(path, module):  
-    for root, directories, files in os.walk(os.path.abspath(path)):
-        for file in files:
-            try:
-                importlib.import_module(module + "." + file.split(".")[0])
-            except:
-                continue
-                    
-        for directory in directories:  
-            if directory != "__pycache__":
-                load_modules_recursiv(path + directory, module + "." + directory)
                 
                 
                 

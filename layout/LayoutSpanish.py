@@ -4,48 +4,48 @@ Created on Apr 24, 2020
 @author: cabral
 '''
 
-from wordclock import Board
-from wordclock.BoardWord import BoardWord
+from layout.LayoutBase import LayoutBase
+from layout.LayoutWord import LayoutWord
 
-class SpanishBoard(Board):
+class LayoutSpanish(LayoutBase):
     
     def __init__(self):
         super().__init__("Spanish")
         
         self.firstWords = [
-            BoardWord("ES", 0, 0), 
-            BoardWord("SON", 0, 1)]
+            LayoutWord("ES", 0, 0), 
+            LayoutWord("SON", 0, 1)]
         
         self.secondWords = [
-            BoardWord("LA", 0, 5), 
-            BoardWord("LAS", 0, 5)]
+            LayoutWord("LA", 0, 5), 
+            LayoutWord("LAS", 0, 5)]
         
-        self.hourWords = [BoardWord("UNA", 0, 8), 
-                          BoardWord("DOS", 1, 0), 
-                          BoardWord("TRES", 1, 4), 
-                          BoardWord("CUATRO", 2, 0), 
-                          BoardWord("CINCO", 2, 6), 
-                          BoardWord("SEIS", 3, 0),  
-                          BoardWord("SIETE", 3, 5), 
-                          BoardWord("OCHO", 4, 0), 
-                          BoardWord("NUEVE", 4, 4),  
-                          BoardWord("DIEZ", 5, 2), 
-                          BoardWord("ONCE", 5, 7), 
-                          BoardWord("DOCE", 6, 0)]
+        self.hourWords = [LayoutWord("UNA", 0, 8), 
+                          LayoutWord("DOS", 1, 0), 
+                          LayoutWord("TRES", 1, 4), 
+                          LayoutWord("CUATRO", 2, 0), 
+                          LayoutWord("CINCO", 2, 6), 
+                          LayoutWord("SEIS", 3, 0),  
+                          LayoutWord("SIETE", 3, 5), 
+                          LayoutWord("OCHO", 4, 0), 
+                          LayoutWord("NUEVE", 4, 4),  
+                          LayoutWord("DIEZ", 5, 2), 
+                          LayoutWord("ONCE", 5, 7), 
+                          LayoutWord("DOCE", 6, 0)]
         
-        self.unionWords = [BoardWord("Y", 6, 5),  
-                           BoardWord("MENOS", 6, 6)]
+        self.unionWords = [LayoutWord("Y", 6, 5),  
+                           LayoutWord("MENOS", 6, 6)]
         
-        self.minutes = [BoardWord("CINCO", 8, 6),
-                        BoardWord("DIEZ", 7, 7), 
-                        BoardWord("CUARTO", 9, 5), 
-                        BoardWord("VEINTE", 7, 1), 
-                        BoardWord("VEINTICINCO", 8, 0), 
-                        BoardWord("MEDIA", 9, 0)]
+        self.minutes = [LayoutWord("CINCO", 8, 6),
+                        LayoutWord("DIEZ", 7, 7), 
+                        LayoutWord("CUARTO", 9, 5), 
+                        LayoutWord("VEINTE", 7, 1), 
+                        LayoutWord("VEINTICINCO", 8, 0), 
+                        LayoutWord("MEDIA", 9, 0)]
         
         self.allWords = self.firstWords + self.secondWords + self.hourWords + self.unionWords + self.minutes
         
-    #Given a time, it returns a ([]BoardWord, int) where the second element is the 1-minute grain (0 - 4) 
+    #Given a time, it returns a ([]LayoutWord, int) where the second element is the 1-minute grain (0 - 4) 
     def get_words_and_points_from_time(self, time):
         minute = time.minute
         hour = time.hour

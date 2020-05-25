@@ -3,7 +3,8 @@ class ConfigParser:
     
     def __init__(self, file_path):
         self.file_path = file_path
-        
+    
+    # TODO: The returned value should be a dict which again has dicts and so on according to the point divisions
     # It returns a dictionary whose keys are the target to which the parameter
     # is intended to
     # The value of the key is an array tupple like (rest of the name of the key as an array, string value defined in the file)
@@ -28,12 +29,11 @@ class ConfigParser:
                     
                 keys = key_value[0].split('.', 1)
                 target = keys[0]
-                extended_value = (keys[1], key_value[1])
                 
                 if target not in ret_dict.keys():
-                    ret_dict[target] = []
-                
-                ret_dict[target].append(extended_value)
+                    ret_dict[target] = {}
+                    
+                ret_dict[target][keys[1]] = key_value[1]
         
         finally:
             file.close()

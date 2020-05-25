@@ -1,5 +1,0 @@
-from wordclock.Board import Board
-from wordclock.SpanishBoard import SpanishBoard
-from wordclock.BoardWord import BoardWord
-from wordclock.LedStripHorizontal1 import LedStripHorizontal1
-from wordclock.MatrixOperations import MatrixOperations

@@ -7,11 +7,12 @@ Created on Apr 24, 2020
 import atexit
 import time
 
-from wordclock import SpanishBoard
-from wordclock.LedStripHorizontal1 import LedStripHorizontal1
-from wordclock.MatrixOperations import MatrixOperations
+from layout.LayoutBase import get_layout_instance
+from wiring.WiringBase import get_wiring_instance
+from wiring.WiringHorizontal1 import WiringHorizontal1
+from utils.MatrixOperations import MatrixOperations
 from config.ConfigParser import ConfigParser
-from animations.AnimationsLoader import load_modules
+import animations.AnimationsLoader as AnimationsLoader
 from Scheduler import Scheduler
 
 import datetime
@@ -30,13 +31,14 @@ if __name__ == '__main__':
     
     parameters_global = parser.parse()
     
-    #TODO: set the board and the led_strip according ot the parameters
-    board = SpanishBoard()
-    led_strip = LedStripHorizontal1({})
+    board = get_layout_instance(parameters_global["wordclock"]["language"])()
+    led_strip = get_wiring_instance(parameters_global["wordclock"]["strip"])(parameters_global.get(parameters_global["wordclock"]["strip"], {}))
+    
+    
     matrix = MatrixOperations(led_strip, {})
     
     #Load modules
-    name_and_executables = load_modules("./animations/", "animations", matrix, parameters_global)
+    name_and_executables = AnimationsLoader.load_animations("./animations/", "animations", matrix, parameters_global)
  
     atexit.register(clean_all, led_strip)
     scheduler = Scheduler(name_and_executables, parameters_global["scheduler"])

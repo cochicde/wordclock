@@ -3,7 +3,7 @@ Created on 26.04.2020
 
 @author: cabral
 '''
-class BoardWord:
+class LayoutWord:
     
     def __init__(self, word, row, column):
         self.word = word
@@ -13,8 +13,3 @@ class BoardWord:
     def __str__(self):
         return self.word
     
-    def __hash__(self):
-        return hash((self.word, self.row, self.column))
-
-    def __eq__(self, other):
-        return (self.word, self.row, self.column) == (other.word, other.row, other.column)
