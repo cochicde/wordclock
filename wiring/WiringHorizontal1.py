@@ -4,7 +4,6 @@ Created on 26.04.2020
 @author: cabral
 '''
 
-from rpi_ws281x import PixelStrip
 from wiring.WiringBase import WiringBase
 
 class WiringHorizontal1(WiringBase):

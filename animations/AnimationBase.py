@@ -2,7 +2,7 @@
 
 class AnimationBase:
     
-    def __init__(self, led_access, parameters):
+    def __init__(self, matrix_access, parameters):
         #just to define the interface
         pass
     

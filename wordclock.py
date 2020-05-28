@@ -4,44 +4,59 @@ Created on Apr 24, 2020
 @author: cabral
 '''
 
-import atexit
 import time
+import signal
+import sys
 
 from layout.LayoutBase import get_layout_instance
 from wiring.WiringBase import get_wiring_instance
-from wiring.WiringHorizontal1 import WiringHorizontal1
 from utils.MatrixOperations import MatrixOperations
 from config.ConfigParser import ConfigParser
-import animations.AnimationsLoader as AnimationsLoader
-from Scheduler import Scheduler
+from utils import ModuleLoader
+from scheduler.Scheduler import Scheduler
 
 import datetime
 
-def clean_all(led_strip):
-    led_strip.turn_all_off()
-    led_strip.refresh()
+exit_params = []
+
+# default values
+DEFAULT_LAYOUT = "LayoutSpanish"
+DEFAULT_WIRING = "WiringHorizontal1"
+
+def clean_all(signalNumber, frame):
+    print('Bye. Signal Received:', signalNumber)
+    exit_params[0].turn_all_off()
+    exit_params[0].refresh()
+    sys.exit()
 
 if __name__ == '__main__':
     
-    #Call config parser
-    #Look for key called wordclock which should have an array of tupples whose first parameter
-    #would be the name of the variable and the other value would be the parameter
+    #Load modules
+    ModuleLoader.load_modules("animations")
+    ModuleLoader.load_modules("layout")
+    ModuleLoader.load_modules("wiring")
     
+    # Get the configurations
     parser = ConfigParser("config/default.conf")
-    
     parameters_global = parser.parse()
     
-    board = get_layout_instance(parameters_global["wordclock"]["language"])()
-    led_strip = get_wiring_instance(parameters_global["wordclock"]["strip"])(parameters_global.get(parameters_global["wordclock"]["strip"], {}))
+    # Get the language layout
+    wordclock_params = parameters_global.get("wordclock", {})
+    board = get_layout_instance(wordclock_params.get("language", DEFAULT_LAYOUT))()
+    
+    # Get the type of led strip    
+    strip_name = wordclock_params.get("strip", DEFAULT_WIRING)
+    led_strip = get_wiring_instance(strip_name)(parameters_global.get(strip_name, {}))
     
     
-    matrix = MatrixOperations(led_strip, {})
+    # Load the matrix
+    matrix = MatrixOperations(led_strip, parameters_global.get("matrix", {}))
     
-    #Load modules
-    name_and_executables = AnimationsLoader.load_animations("./animations/", "animations", matrix, parameters_global)
- 
-    atexit.register(clean_all, led_strip)
-    scheduler = Scheduler(name_and_executables, parameters_global["scheduler"])
+    signal.signal(signal.SIGTERM, clean_all)
+    signal.signal(signal.SIGINT, clean_all)
+    exit_params.append(led_strip)
+    
+    scheduler = Scheduler(matrix, parameters_global)
         
     while(True):
         
@@ -61,7 +76,6 @@ if __name__ == '__main__':
                
         matrix.refresh()
         
-        #sleeptime = 60 - datetime.datetime.utcnow().second
-        sleeptime = freq
+        sleeptime = freq if freq != -1 else 60 - datetime.datetime.utcnow().second 
         time.sleep(sleeptime)
         

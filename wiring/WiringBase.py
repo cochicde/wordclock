@@ -5,7 +5,6 @@ Created on 26.04.2020
 '''
 
 from rpi_ws281x import PixelStrip
-import utils.ModuleLoader as ModuleLoader
 
 class WiringBase:
     
@@ -56,7 +55,5 @@ class WiringBase:
         self.strip.show()
         
 def get_wiring_instance(class_name):
-    # Create loader base to load all at the once
-    ModuleLoader.load_modules_recursiv("./wiring", "wiring")
     name_and_classes = {cls.__name__ : cls for cls in WiringBase.__subclasses__()}
     return name_and_classes[class_name]

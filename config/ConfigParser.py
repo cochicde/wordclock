@@ -4,10 +4,6 @@ class ConfigParser:
     def __init__(self, file_path):
         self.file_path = file_path
     
-    # TODO: The returned value should be a dict which again has dicts and so on according to the point divisions
-    # It returns a dictionary whose keys are the target to which the parameter
-    # is intended to
-    # The value of the key is an array tupple like (rest of the name of the key as an array, string value defined in the file)
     def parse(self):
         ret_dict = {}
         line_counter = 1
@@ -27,15 +23,23 @@ class ConfigParser:
                 for i in range(len(key_value)):
                     key_value[i] = key_value[i].strip()
                     
-                keys = key_value[0].split('.', 1)
-                target = keys[0]
+                keys = key_value[0].split('.')  
                 
-                if target not in ret_dict.keys():
-                    ret_dict[target] = {}
-                    
-                ret_dict[target][keys[1]] = key_value[1]
-        
+                target = keys[0]
+                current_dict = ret_dict
+
+                for i in range(0, len(keys)):
+                    if i == len(keys) - 1: # last field
+                        current_dict[keys[i]] = key_value[1]
+                    else:
+                        if keys[i] not in current_dict.keys():
+                            current_dict[keys[i]] = {}
+                            
+                        current_dict = current_dict[keys[i]]
+                        target = keys[i]
+                        
         finally:
             file.close()
         
         return ret_dict
+    
