@@ -14,6 +14,7 @@ from utils.MatrixOperations import MatrixOperations
 from config.ConfigParser import ConfigParser
 from utils import ModuleLoader
 from scheduler.Scheduler import Scheduler
+from web.backend.Backend import Backend
 
 import datetime
 
@@ -57,6 +58,8 @@ if __name__ == '__main__':
     exit_params.append(led_strip)
     
     scheduler = Scheduler(matrix, parameters_global)
+    
+    #backend = Backend(matrix)
         
     while(True):
         
