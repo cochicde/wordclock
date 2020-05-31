@@ -62,6 +62,9 @@ class OwnDatetime:
         
         return (own_datetime - second_datetime).total_seconds()
     
+    # this comparison is not well done yet. A bug happened when it was May 31st and it was compared to :06: period, meaning a june period,
+    # which only has 30 days. So the day (coming from the datetime_to_check was not in the range of the period June.
+    # A quick hack was added but the way of doing the whole function does not seem right
     def compare(self, datetime_to_check):
         
         year = self.values[0] if self.values[0] != None else datetime_to_check.year
@@ -70,6 +73,10 @@ class OwnDatetime:
         hour = self.values[3] if self.values[3] != None else datetime_to_check.hour
         minute = self.values[4] if self.values[4] != None else datetime_to_check.minute
         second = self.values[5] if self.values[5] != None else datetime_to_check.second
+        
+        if day > calendar.monthrange(year, month)[1]:
+            day = calendar.monthrange(year, month)[1]
+        
         
         #we add the microseconds to avoid wrong results in the comparisons
         own_datetime = datetime.datetime(year, month, day, hour, minute, second, datetime_to_check.microsecond)
