@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>Wordclock</title>
+</head>
+
+<body>
+
+    <div class="mainRow">
+		<div id="matrixArea" class="mainColumn">
+		  <input type="radio" id="matrix" name="workArea" value="matrix" checked>
+		  <label for="matrix">Play on the matrix</label>
+		</div>
+		
+		<div id="textArea" class="mainColumn">
+		  <input type="radio" id="text" name="workArea" value="text">
+		  <label for="text">Customize a running text</label>
+		</div>
+		
+		<div id="periodArea" class="secondMainColumn"> 
+			<h2>Period</h2>
+		</div>
+	
+	</div>
+	
+	<div id="commandsArea">
+	
+	</div>
+	
+	<div id="colorArea">
+	
+	</div>
+  
+  <h1 style="color: red">Index</h1>
+  <p>This is an HTML file served up by Flask</p>
+</body>
+
+</html>

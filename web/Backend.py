@@ -1,5 +1,4 @@
-from flask import Flask
-#from flask_swagger_ui import get_swaggerui_blueprint
+from flask import Flask, render_template
 import _thread
 
 class Backend:
@@ -15,7 +14,7 @@ class Backend:
 
 @Backend.app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return render_template("index.html")
 
 @Backend.app.route('/row/<int:row_pos>')
 def show_post(row_pos):

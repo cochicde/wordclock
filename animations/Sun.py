@@ -1,5 +1,6 @@
 from animations.AnimationBase import AnimationBase
 from rpi_ws281x import Color
+from utils.RainbowColors import get_color_from_row
 
 class Sun(AnimationBase):
     
@@ -8,20 +9,29 @@ class Sun(AnimationBase):
         numbers = numbers.strip().split(" ")
         self.color = Color(int(numbers[0]), int(numbers[1]), int(numbers[2])) 
         self.matrix_access = matrix_access
+        self.leds = []
+        for row in [0, 5, 10]:
+            self.leds.append((0, row))
+            self.leds.append((8, row))
+            
+        for row in [1, 9]:
+            self.leds.append((1, row))
+            self.leds.append((7, row))
+            
+        for row in range(4, 7):
+            self.leds.append((2, row))
+            self.leds.append((6, row))
+            
+        for row in range(3, 8):
+            self.leds.append((3, row))
+            self.leds.append((5, row))
+            
+        for row in [0, 1, 3, 4, 5, 6, 7, 9, 10]:
+            self.leds.append((4, row))
 
     def execute(self):
-        self.matrix_access.turn_on_row_ranged(0, [0, 5, 10], self.color)
-        self.matrix_access.turn_on_row_ranged(8, [0, 5, 10], self.color)
         
-        self.matrix_access.turn_on_row_ranged(1, [1, 9], self.color)
-        self.matrix_access.turn_on_row_ranged(7, [1, 9], self.color)
-
-        
-        self.matrix_access.turn_on_row_ranged(2, range(4, 7), self.color)
-        self.matrix_access.turn_on_row_ranged(6, range(4, 7), self.color)
-        
-        self.matrix_access.turn_on_row_ranged(3, range(3, 8), self.color)
-        self.matrix_access.turn_on_row_ranged(5, range(3, 8), self.color)
-        
-        self.matrix_access.turn_on_row_ranged(4, [0, 1, 3, 4, 5, 6, 7, 9, 10], self.color)
+        for led in self.leds:
+            self.matrix_access.turn_on_matrix_position([led], get_color_from_row(led[0]))
+                
         self.matrix_access.refresh()

@@ -14,7 +14,7 @@ from utils.MatrixOperations import MatrixOperations
 from config.ConfigParser import ConfigParser
 from utils import ModuleLoader
 from scheduler.Scheduler import Scheduler
-#from web.backend.Backend import Backend
+from web.Backend import Backend
 
 import datetime
 
@@ -24,8 +24,8 @@ exit_params = []
 DEFAULT_LAYOUT = "LayoutSpanish"
 DEFAULT_WIRING = "WiringHorizontal1"
 
-def clean_all(signalNumber, frame):
-    print('Bye. Signal Received:', signalNumber)
+def clean_all(signal_number, frame):
+    print('Bye. Signal Received:', signal_number)
     exit_params[0].turn_all_off()
     exit_params[0].refresh()
     sys.exit()
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     
     scheduler = Scheduler(matrix, parameters_global)
     
-    #backend = Backend(matrix)
+    backend = Backend(matrix)
         
     while(True):
         
