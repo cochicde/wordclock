@@ -4,39 +4,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+  <link rel="stylesheet" href="../static/style.css">
   <title>Wordclock</title>
 </head>
 
 <body>
 
     <div class="mainRow">
-		<div id="matrixArea" class="mainColumn">
+		<div id="matrixArea" class="mainColumn box">
 		  <input type="radio" id="matrix" name="workArea" value="matrix" checked>
 		  <label for="matrix">Play on the matrix</label>
 		</div>
 		
-		<div id="textArea" class="mainColumn">
+		<div id="textArea" class="mainColumn box">
 		  <input type="radio" id="text" name="workArea" value="text">
 		  <label for="text">Customize a running text</label>
 		</div>
 		
-		<div id="periodArea" class="secondMainColumn"> 
+		<div id="periodArea" class="secondMainColumn box"> 
 			<h2>Period</h2>
 		</div>
 	
 	</div>
 	
-	<div id="commandsArea">
-	
+	<div id="colorArea" class="box">
+		<p>Color Area</p>
 	</div>
 	
-	<div id="colorArea">
-	
+	<div id="commandsArea" class="box">
+		<p>Commands Area</p>
 	</div>
-  
-  <h1 style="color: red">Index</h1>
-  <p>This is an HTML file served up by Flask</p>
+	
 </body>
 
 </html>

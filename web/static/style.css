@@ -1,26 +1,28 @@
-.mainColumn {
-	float: left;
-	width: 40%;
+body {
+	margin: 3em 3em 0 3em; /* top right bottom left */
+}
+
+.mainRow {
+	 display: flex;
+}
+
+.box {
  	border-style: solid;
-	border-width: 2px;
+	border-width: 1px;
+}
+ 
+ .mainColumn  {
+ 	flex: 2; 
+ 	margin: 0 3px 0 0px; /* top right bottom left */
+ }
+
+.secondMainColumn{
+	flex: 1; 
+	margin-right: 0px; /* top right bottom left */
 }
 
-.secondMainColumn {
-	float: left;
-	width: 20%;
-	border-style: solid;
-	border-width: 2px;
+#colorArea, #commandsArea {
+	width: 100%;
+	margin: 3px 0 0 0px; /* top right bottom left */
 }
 
-label {
-  width:200px;
-  display: float;
-}
-
-/* Clear floats after the columns */
-.mainRow:after {
-  content: "";
-  display: table;
-  clear: both;
-  column-gap: 2px;
-}
