@@ -25,7 +25,7 @@ function createMatrix(letters) {
 				this.setAttribute('is_on', '0')
 			}
 			this.style.background =  color
-			changeColor(rowAndColumn[0], rowAndColumn[1], color)
+			changeColor(rowAndColumn[0], rowAndColumn[1], color.slice(1))
 		}
 		div.innerHTML = letters[row][column] 
     }
@@ -37,8 +37,10 @@ function createMatrix(letters) {
 
 
 function changeColor(row, column, color){
-	xhttp.open("POST", "/turn_on/" + row + "/" + column "/" + color, true);
-	xhttp.send();
+	var xhttp = new XMLHttpRequest();
+	path = "/turn_on/" + row + "/" + column + "/" + color
+	xhttp.open("POST", path, true);
+	xhttp.send("");
 }
 
 function setSameHeight(elementId) {
