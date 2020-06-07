@@ -6,12 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
   <link rel="stylesheet" href="../static/style.css">
+  <script type="text/javascript" src="../static/javascript.js"></script>
   <title>Wordclock</title>
+  <script>
+	function createMatrixOnload() {
+		letters = [ 
+			["E", "S", "O", "N", "E", "L", "A", "S", "U", "N", "A"],
+			["D", "O", "S", "I", "T", "R", "E", "S", "O", "R", "E"],
+			["C", "U", "A", "T", "R", "O", "C", "I", "N", "C", "O"],
+			["S", "E", "I", "S", "A", "S", "I", "E", "T", "E", "N"],
+			["O", "C", "H", "O", "N", "U", "E", "V", "E", "Y", "O"],
+			["L", "A", "D", "I", "E", "Z", "S", "O", "N", "C", "E"],
+			["D", "O", "C", "E", "L", "Y", "M", "E", "N", "O", "S"],
+			["O", "V", "E", "I", "N", "T", "E", "D", "I", "E", "Z"],
+			["V", "E", "I", "N", "T", "I", "C", "I", "N", "C", "O"],
+			["M", "E", "D", "I", "A", "C", "U", "A", "R", "T", "O"]
+		]
+		createMatrix(letters);
+		setSameHeight("mainRowId")
+	}
+</script>
 </head>
 
-<body>
+<body onload="createMatrixOnload()">
 
-    <div class="mainRow">
+    <div class="mainRow" id="mainRowId">
 		<div id="matrixArea" class="mainColumn box">
 		  <input type="radio" id="matrix" name="workArea" value="matrix" checked>
 		  <label for="matrix">Play on the matrix</label>

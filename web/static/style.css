@@ -2,27 +2,50 @@ body {
 	margin: 3em 3em 0 3em; /* top right bottom left */
 }
 
-.mainRow {
-	 display: flex;
-}
-
 .box {
  	border-style: solid;
 	border-width: 1px;
+	border-radius: 10px;
+	box-sizing: border-box;
+}
+
+/* Clear floats after the columns */
+.mainRow:after {
+  content: "";
+  display: table;
+  clear: both;
 }
  
  .mainColumn  {
- 	flex: 2; 
- 	margin: 0 3px 0 0px; /* top right bottom left */
+ 	float: left;
+  	width: 40%;
+ 	margin: 0 1% 0 0; /* top right bottom left */
  }
 
 .secondMainColumn{
-	flex: 1; 
-	margin-right: 0px; /* top right bottom left */
+  float: left;
+  width: 18%; 
 }
 
 #colorArea, #commandsArea {
 	width: 100%;
-	margin: 3px 0 0 0px; /* top right bottom left */
+	margin: 1% 0 0 0; /* top right bottom left */
+}
+
+#matrixArea {
+	padding: 2%
+}
+
+.matrixTable {
+	  width : 100%;
+	  border-style: solid;
+	  border-width: 1px;
+      table-layout: fixed;
+}
+
+.matrixTable td {
+	 border-style: solid;
+	  border-width: 1px;
+	  text-align: center;
 }
 
