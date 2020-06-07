@@ -18,13 +18,11 @@ body {
  
  .mainColumn  {
  	float: left;
-  	width: 40%;
  	margin: 0 1% 0 0; /* top right bottom left */
  }
 
 .secondMainColumn{
   float: left;
-  width: 18%; 
 }
 
 #colorArea, #commandsArea {
@@ -37,7 +35,6 @@ body {
 }
 
 .matrixTable {
-	  width : 100%;
 	  border-style: solid;
 	  border-width: 1px;
       table-layout: fixed;
@@ -47,5 +44,13 @@ body {
 	 border-style: solid;
 	  border-width: 1px;
 	  text-align: center;
+	  background: rgb(0, 0, 0);
+	  color: gray;
 }
+
+.matrixTable td div:hover {
+	 cursor: pointer;
+}
+
+
 
