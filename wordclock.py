@@ -10,7 +10,7 @@ import sys
 
 from layout.LayoutBase import get_layout_instance
 from wiring.WiringBase import get_wiring_instance
-from utils.MatrixOperations import MatrixOperations
+from matrix.MatrixOperations import MatrixOperations
 from config.ConfigParser import ConfigParser
 from utils import ModuleLoader
 from scheduler.Scheduler import Scheduler

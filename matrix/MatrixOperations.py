@@ -86,6 +86,9 @@ class MatrixOperations:
         
         self.turn_columns_on(range(self.columns - count, self.columns), 0)
     
+    def turn_all_on(self, color):
+        self.turn_rows_on(range(self.rows), color)
+    
     def turn_all_off(self):
         self.led_strip.turn_all_off()  
                 
