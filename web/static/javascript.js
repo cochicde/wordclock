@@ -3,6 +3,7 @@ function createMatrix(letters) {
   var matrixArea = document.getElementById('matrixArea');
   var table = document.createElement('table');
   table.className = "matrixTable"
+  table.id = "matrixTable"
   for (var row = 0; row < letters.length; row++) {
     var tr = document.createElement('tr');
     for (var column = 0; column < letters[row].length; column++) {
@@ -13,6 +14,7 @@ function createMatrix(letters) {
 		td.appendChild(div)
 		div.id = row + " " + column
 		div.setAttribute('is_on', '0')
+		div.style.background = '#000000'
 		div.onclick = function(){
 			var rowAndColumn = this.id.split(" ")
 			var color = null
@@ -33,8 +35,26 @@ function createMatrix(letters) {
   }
   var colorElement = document.getElementById("matrixColor")
   matrixArea.insertBefore(table, colorElement)
+  window.setInterval(getMatrixState, 1000);
 }
 
+function getMatrixState(){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var jsonText = JSON.parse(this.responseText)
+			var leds = jsonText["leds"]
+
+			for (var led = 0; led < leds.length; led++) {
+				var id = leds[led]["row"] + " " + leds[led]["column"]
+				cell = document.getElementById(id)
+				cell.style.background = 'rgb(' + leds[led]["color"] + ')'
+			}
+		}
+	};
+	xhttp.open("GET", "state", true);
+	xhttp.send("");
+}
 
 function changeColor(row, column, color){
 	var xhttp = new XMLHttpRequest();
@@ -54,4 +74,51 @@ function setSameHeight(elementId) {
 	for (var child = 0; child < element.children.length; child++) {
 		element.children[child].style.height = tallestHeight  + "px"
 	}
+}
+
+function createMatrixState(color){
+	var jsonState = "{\"leds\":[" 
+	var cells = document.getElementById("matrixTable").getElementsByTagName('div')
+	for (var divChild = 0; divChild < cells.length; divChild++) {
+		var colorToUse = ""
+		var rowAndColumn = cells[divChild].id.split(" ")
+		if (color == ""){
+			colorToUse = cells[divChild].style.backgroundColor.slice(4, -1)
+		} else {
+			colorToUse = color
+		}
+		jsonState += "{ \"row\":" + rowAndColumn[0] + ", \"column\":" + rowAndColumn[1] + ", \"color\": \"" + colorToUse + "\"}"
+		if (divChild != cells.length - 1) {
+			jsonState += ","
+		}
+	}
+	jsonState += "]}"
+	return jsonState 
+}
+
+function saveState(){
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("POST", "/turn_on/", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.send(createMatrixState(""));
+}
+
+function clearMatrix(){
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("POST", "/turn_on/", true);
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.send(createMatrixState("0, 0, 0"));
+}
+
+function changeClockState(){
+	var checkBox = document.getElementById("pauseClock");
+	var xhttp = new XMLHttpRequest();
+	var path = "/clockState/"
+	if (checkBox.checked == true){
+		path += 1
+	  } else {
+		  path += 0
+	  }
+	xhttp.open("POST", path, true);
+	xhttp.send("");
 }

@@ -46,6 +46,9 @@ class WiringBase:
         
     def get_pixel_color(self, pos):
         return self.strip.getPixelColor(pos)
+    
+    def get_pixel_color_rgb(self, pos):
+        return self.strip.getPixelColorRGB(pos)
         
     def turn_all_off(self):
         for led in range(self.led_count):

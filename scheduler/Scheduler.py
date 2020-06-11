@@ -3,6 +3,7 @@ import datetime
 import time
 from scheduler.ScheduledApp import ScheduledApp
 from animations.AnimationBase import AnimationBase 
+import threading
 
 class Scheduler:
     
@@ -29,6 +30,14 @@ class Scheduler:
                 self.registered_apps.append(new_subscribed_app)
         self.group_index = 0
         
+        self.semaphore = threading.Semaphore(1)
+    
+    def pause(self):
+        self.semaphore.acquire()
+    
+    def resume(self):
+        self.semaphore.release()   
+     
     def execute(self):
         #Here, the lowest time should be checked, and sleep untill next trigger.
         #There should be sempahore or something to wake him up

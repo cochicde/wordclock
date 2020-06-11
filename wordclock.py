@@ -59,13 +59,17 @@ if __name__ == '__main__':
     
     scheduler = Scheduler(matrix, parameters_global)
     
-    backend = Backend(matrix)
+    backend = Backend(matrix, scheduler)
+   # time.sleep(20000)
         
     while(True):
         
         led_strip.turn_all_off()
+        
+        scheduler.pause()
         freq = scheduler.execute()
-
+        scheduler.resume()
+        
         wordsAndPoints = board.get_words_and_points_from_time(datetime.datetime.now().time())
       
         led_strip.turn_all_off()

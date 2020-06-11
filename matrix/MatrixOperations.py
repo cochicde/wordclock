@@ -86,6 +86,12 @@ class MatrixOperations:
         
         self.turn_columns_on(range(self.columns - count, self.columns), 0)
     
+    def get_pixel_colors(self, coordinates):
+        return [self.led_strip.get_pixel_color(self.led_strip.coordinates_to_strip_pos(coordinate[0], coordinate[1])) for coordinate in coordinates]
+    
+    def get_pixel_colors_rgb(self, coordinates):
+        return [self.led_strip.get_pixel_color_rgb(self.led_strip.coordinates_to_strip_pos(coordinate[0], coordinate[1])) for coordinate in coordinates]
+            
     def turn_all_on(self, color):
         self.turn_rows_on(range(self.rows), color)
     
