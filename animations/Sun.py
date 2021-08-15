@@ -1,13 +1,22 @@
 from animations.AnimationBase import AnimationBase
 from rpi_ws281x import Color
-from utils.RainbowColors import get_color_from_row
+import importlib
 
 class Sun(AnimationBase):
     
     def __init__(self, matrix_access, parameters):
-        numbers = parameters.get("color", "255 255 0")
-        numbers = numbers.strip().split(" ")
-        self.color = Color(int(numbers[0]), int(numbers[1]), int(numbers[2])) 
+   
+        
+        filter_name = parameters.get("filter", "")
+        if filter_name != "":
+            self.filter = importlib.import_module("animations.filters." + filter_name) 
+        else:
+            self.filter = self
+            numbers = parameters.get("color", "255 255 0")
+            numbers = numbers.strip().split(" ")
+            self.color = Color(int(numbers[0]), int(numbers[1]), int(numbers[2])) 
+        
+        
         self.matrix_access = matrix_access
         self.leds = []
         for row in [0, 5, 10]:
@@ -29,9 +38,12 @@ class Sun(AnimationBase):
         for row in [0, 1, 3, 4, 5, 6, 7, 9, 10]:
             self.leds.append((4, row))
 
+    def get_color_from_row(self, row):
+        return self.color
+
     def execute(self):
         
         for led in self.leds:
-            self.matrix_access.turn_on_matrix_position([led], get_color_from_row(led[0]))
+            self.matrix_access.turn_on_matrix_position([led], self.filter.get_color_from_row(led[0]))
                 
         self.matrix_access.refresh()

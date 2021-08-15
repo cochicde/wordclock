@@ -12,13 +12,13 @@ class Scheduler:
         
         name_and_classes = {cls.__name__ : cls for cls in AnimationBase.__subclasses__()}
         scheduler_params = parameters["scheduler"]
-        
+
         for scheduled_app_name in scheduler_params.keys():
             
             # Different instances of the same class can be defined if they have a slash.
             # This is the case if the same app is instantiated with different parameters
             class_name = scheduled_app_name.split("/")[0]
-            
+
             new_subscribed_app = ScheduledApp(scheduled_app_name, name_and_classes[class_name](matrix, parameters.get(scheduled_app_name, {})), 
                                                             scheduler_params[scheduled_app_name]["period"],
                                                             scheduler_params[scheduled_app_name].get("period_frequency", "10"),
